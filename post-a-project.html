@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Project - ProyeKita</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc2626;
+            --primary-red-dark: #991b1b;
+            --accent-amber: #f59e0b;
+            --accent-amber-dark: #d97706;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --border-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light); /* Light bg for a page */
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links button,
+        .nav-links a {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-weight: 500;
+            padding: 0;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { /* 'active' class for current page */
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        /* Section styles */
+        .section {
+            padding: 6rem 0;
+            padding-top: 120px; /* Account for fixed header */
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(220, 38, 38, 0.12) 100%);
+            color: var(--primary-red);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(220, 38, 38, 0.15);
+        }
+
+        /* Form styling from index.html */
+        .form-container {
+            max-width: 800px; /* Centered form */
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--border-light);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+            background: var(--bg-white);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        .btn-primary {
+            background: #000000;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 4rem 3rem 2rem;
+            margin-top: 6rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        .footer-desc {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+        .footer-section h4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links a {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav>
+            <a class="logo" href="index.html">
+                <img src="asset/logo.png" alt="ProyeKita Logo">
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Service</a></li> <li><a href="index.html">Portfolio</a></li> <li><a href="post-a-project.html" class="active">Post Project</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="communication_system.html">Messages</a></li>
+                <li><a href="rating_system.html">Rating</a></li>
+
+                <li><a href="index.html">About</a></li> <li><a href="index.html">Contact</a></li> </ul>
+        </nav>
+    </header>
+
+    <div class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">📋 Post a Project</div>
+                <h2>Tell Us What You Need</h2>
+                <p class="section-subtitle">Provide details about your project, and our developers will send you their proposals.</p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-group">
+                    <label>Project Title *</label>
+                    <input type="text" placeholder="e.g., 'Build a Responsive E-commerce Website'" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Project Description *</label>
+                    <textarea placeholder="Describe your project in detail. What are the main features? What are the goals?" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Project Category</label>
+                    <select>
+                        <option value="">Select a category...</option>
+                        <option value="web-dev">Website Development</option>
+                        <option value="mobile-dev">Mobile App Development</option>
+                        <option value="design">UI/UX Design</option>
+                        <option value="data">Data Science & Analytics</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Budget (IDR)</label>
+                    <input type="number" placeholder="e.g., '10000000'">
+                </div>
+                
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date">
+                </div>
+                
+                <div class="form-group">
+                    <label>Attach Files</label>
+                    <input type="file" style="padding: 10px; background: var(--bg-light);">
+                </div>
+
+                <button class="btn-primary" onclick="alert('Project Posted Successfully!')">
+                    Post Your Project
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <span>ProyeKita</span>
+                    </div>
+                    <p class="footer-desc">Platform outsourcing developer yang mendemokratisasi akses teknologi untuk Startup & UKM Indonesia.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Layanan</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Project-based</a></li>
+                        <li><a href="index.html">Dedicated Team</a></li>
+                        <li><a href="index.html">Maintenance</a></li>
+                        <li><a href="index.html">Konsultasi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Perusahaan</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Tentang Kami</a></li>
+                        <li><a href="index.html">Tim</a></li>
+                        <li><a href="index.html">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ProyeKita. All rights reserved. | BINUS University - Kelompok 5</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Terima kasih kepada Bu Ary atas bimbingannya</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
