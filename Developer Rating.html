@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating & Review System - ProyeKita</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc2626;
+            --primary-red-dark: #991b1b;
+            --accent-amber: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(220, 38, 38, 0.12) 100%);
+            color: var(--primary-red);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(220, 38, 38, 0.15);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .rating-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rating-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+        }
+
+        .rating-card h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .developer-profile {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .developer-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        }
+
+        .developer-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .developer-role {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .developer-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .rating-categories {
+            margin-top: 2rem;
+        }
+
+        .category-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .category-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .category-score {
+            font-weight: 800;
+            color: var(--accent-amber);
+            font-size: 1.1rem;
+        }
+
+        .rating-bar {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-amber) 0%, #d97706 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .rating-form {
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.8rem;
+            font-size: 2.5rem;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: var(--accent-amber);
+            transform: scale(1.1);
+        }
+
+        .criteria-rating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .criteria-name {
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .criteria-stars {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            color: white;
+            padding: 18px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+        }
+
+        .reviews-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+        }
+
+        .reviews-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .review-item {
+            border-bottom: 2px solid #f1f5f9;
+            padding: 2rem 0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .reviewer-name {
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .review-date {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+        }
+
+        .review-stars {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 1.2rem;
+        }
+
+        .review-text {
+            color: var(--text-dark);
+            line-height: 1.8;
+            margin-top: 1rem;
+        }
+
+        .review-project {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .rating-container {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+        <nav>
+            <div class="logo">ProyeKita</div>
+            <a href="index.html" class="back-btn">← Kembali ke Beranda</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <div class="badge">⭐ Rating & Review</div>
+            <h1><span class="gradient-text">Rate Your</span> Developer</h1>
+            <p>Berikan penilaian untuk membantu developer kami terus meningkatkan kualitas layanan</p>
+        </div>
+
+        <div class="rating-container">
+            <!-- Developer Profile -->
+            <div class="rating-card">
+                <div class="developer-profile">
+                    <div class="developer-avatar">A</div>
+                    <h3 class="developer-name">Ahmad Rizki</h3>
+                    <p class="developer-role">Full Stack Developer</p>
+                    
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; font-size: 1.8rem; margin: 1rem 0;">
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                    </div>
+                    <p style="color: var(--text-gray); font-weight: 600;">4.9 / 5.0 Average Rating</p>
+                </div>
+
+                <div class="developer-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">20</div>
+                        <div class="stat-label">Reviews</div>
+                    </div>
+                </div>
+
+                <div class="rating-categories">
+                    <h3 style="font-weight: 800; margin-bottom: 1.5rem; font-size: 1.1rem;">Performance Metrics</h3>
+                    
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-name">Code Quality</span>
+                            <span class="category-score">4.9</span>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 98%"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-name">Communication</span>
+                            <span class="category-score">5.0</span>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-name">Timeliness</span>
+                            <span class="category-score">4.8</span>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 96%"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-name">Problem Solving</span>
+                            <span class="category-score">4.9</span>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 98%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rating Form -->
+            <div class="rating-card">
+                <h2>📝 Submit Your Review</h2>
+                
+                <form class="rating-form" onsubmit="submitReview(event)">
+                    <div class="form-group">
+                        <label>Overall Rating</label>
+                        <div class="star-rating" id="overallRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rate Specific Criteria</label>
+                        
+                        <div class="criteria-rating">
+                            <span class="criteria-name">Code Quality</span>
+                            <div class="criteria-stars">
+                                <span class="star small" data-criteria="quality" data-rating="1">★</span>
+                                <span class="star small" data-criteria="quality" data-rating="2">★</span>
+                                <span class="star small" data-criteria="quality" data-rating="3">★</span>
+                                <span class="star small" data-criteria="quality" data-rating="4">★</span>
+                                <span class="star small" data-criteria="quality" data-rating="5">★</span>
+                            </div>
+                        </div>
+
+                        <div class="criteria-rating">
+                            <span class="criteria-name">Communication Skills</span>
+                            <div class="criteria-stars">
+                                <span class="star small" data-criteria="communication" data-rating="1">★</span>
+                                <span class="star small" data-criteria="communication" data-rating="2">★</span>
+                                <span class="star small" data-criteria="communication" data-rating="3">★</span>
+                                <span class="star small" data-criteria="communication" data-rating="4">★</span>
+                                <span class="star small" data-criteria="communication" data-rating="5">★</span>
+                            </div>
+                        </div>
+
+                        <div class="criteria-rating">
+                            <span class="criteria-name">Timeliness & Deadline</span>
+                            <div class="criteria-stars">
+                                <span class="star small" data-criteria="timeliness" data-rating="1">★</span>
+                                <span class="star small" data-criteria="timeliness" data-rating="2">★</span>
+                                <span class="star small" data-criteria="timeliness" data-rating="3">★</span>
+                                <span class="star small" data-criteria="timeliness" data-rating="4">★</span>
+                                <span class="star small" data-criteria="timeliness" data-rating="5">★</span>
+                            </div>
+                        </div>
+
+                        <div class="criteria-rating">
+                            <span class="criteria-name">Problem Solving</span>
+                            <div class="criteria-stars">
+                                <span class="star small" data-criteria="problem" data-rating="1">★</span>
+                                <span class="star small" data-criteria="problem" data-rating="2">★</span>
+                                <span class="star small" data-criteria="problem" data-rating="3">★</span>
+                                <span class="star small" data-criteria="problem" data-rating="4">★</span>
+                                <span class="star small" data-criteria="problem" data-rating="5">★</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Review</label>
+                        <textarea placeholder="Ceritakan pengalaman Anda bekerja dengan developer ini..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Review</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Previous Reviews -->
+        <div class="reviews-section">
+            <h2>💬 Recent Reviews</h2>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">S</div>
+                        <div>
+                            <div class="reviewer-name">Sarah Johnson</div>
+                            <div class="review-date">March 15, 2025</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                    </div>
+                </div>
+                <p class="review-text">Ahmad is an exceptional developer! His code is clean, well-documented, and efficient. Communication throughout the project was excellent, and he delivered ahead of schedule. Would definitely work with him again.</p>
+                <span class="review-project">📦 E-Commerce Platform</span>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">M</div>
+                        <div>
+                            <div class="reviewer-name">Michael Chen</div>
+                            <div class="review-date">February 28, 2025</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                    </div>
+                </div>
+                <p class="review-text">Outstanding work! Ahmad took the time to understand our business needs and delivered a solution that exceeded expectations. His problem-solving skills and attention to detail are top-notch.</p>
+                <span class="review-project">🏢 CRM System</span>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">L</div>
+                        <div>
+                            <div class="reviewer-name">Linda Wijaya</div>
+                            <div class="review-date">January 20, 2025</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: var(--accent-amber);">★</span>
+                        <span style="color: #e2e8f0;">★</span>
+                    </div>
+                </div>
+                <p class="review-text">Very professional and responsive. The only minor issue was some delays in the testing phase, but Ahmad made up for it with excellent post-launch support. Overall, very satisfied with the work.</p>
+                <span class="review-project">📱 Mobile App</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Overall Rating Stars
+        const overallStars = document.querySelectorAll('#overallRating .star');
+        let overallRating = 0;
+
+        overallStars.forEach(star => {
+            star.addEventListener('click', function() {
+                overallRating = parseInt(this.dataset.rating);
+                updateStars(overallStars, overallRating);
+            });
+
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.dataset.rating);
+                updateStars(overallStars, rating);
+            });
+        });
+
+        document.getElementById('overallRating').addEventListener('mouseleave', function() {
+            updateStars(overallStars, overallRating);
+        });
+
+        // Criteria Stars
+        const criteriaStars = document.querySelectorAll('.criteria-stars .star');
+        const criteriaRatings = {
+            quality: 0,
+            communication: 0,
+            timeliness: 0,
+            problem: 0
+        };
+
+        criteriaStars.forEach(star => {
+            star.addEventListener('click', function() {
+                const criteria = this.dataset.criteria;
+                const rating = parseInt(this.dataset.rating);
+                criteriaRatings[criteria] = rating;
+                
+                const criteriaGroup = document.querySelectorAll(`[data-criteria="${criteria}"]`);
+                updateStars(criteriaGroup, rating);
+            });
+        });
+
+        function updateStars(stars, rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitReview(event) {
+            event.preventDefault();
+            
+            if (overallRating === 0) {
+                alert('Please provide an overall rating!');
+                return;
+            }
+
+            alert('Thank you for your review! Your feedback helps us improve our service quality.');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - ProyeKita</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc2626;
+            --primary-red-dark: #991b1b;
+            --accent-amber: #f59e0b;
+            --accent-amber-dark: #d97706;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --border-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light); /* Light bg for a page */
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links button,
+        .nav-links a {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-weight: 500;
+            padding: 0;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { /* 'active' class for current page */
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        /* Section styles */
+        .section {
+            padding: 6rem 0;
+            padding-top: 120px; /* Account for fixed header */
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+        
+        /* NEW CHAT STYLES */
+        .chat-container {
+            display: flex;
+            height: 70vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .chat-sidebar {
+            width: 30%;
+            border-right: 2px solid var(--border-light);
+            background: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .contact-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+            transition: background 0.2s;
+        }
+        .contact-item:hover {
+            background: #eef2ff;
+        }
+        .contact-item.active {
+            background: var(--bg-white);
+            border-right: 4px solid var(--primary-red);
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .contact-name {
+            font-weight: 600;
+        }
+        .contact-preview {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+
+        .chat-main {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--border-light);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .chat-window {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message-bubble {
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            max-width: 70%;
+            line-height: 1.5;
+        }
+        
+        /* Renamed CSS classes to match JS */
+        .message-bubble.received {
+            background: var(--border-light);
+            color: var(--text-dark);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+
+        .message-bubble.sent {
+            background: var(--primary-red);
+            color: white;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1.5rem;
+            border-top: 2px solid var(--border-light);
+            gap: 1rem;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .chat-input button {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 4rem 3rem 2rem;
+            margin-top: 6rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        .footer-desc {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+        .footer-section h4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links a {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav>
+            <a class="logo" href="index.html">
+                <img src="asset/logo.png" alt="ProyeKita Logo">
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Service</a></li>
+                <li><a href="index.html">Portfolio</a></li>
+                
+                <li><a href="post-a-project.html">Post Project</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="communication_system.html" class="active">Messages</a></li>
+                <li><a href="rating_system.html">Rating</a></li>
+
+                <li><a href="index.html">About</a></li>
+                <li><a href="index.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="section">
+        <div class="container">
+            
+            <div class="chat-container">
+                <div class="chat-sidebar">
+                    <div class="sidebar-header">
+                        All Messages
+                    </div>
+                    <div class="contact-list">
+                        <div class="contact-item" data-id="budi">
+                            <div class="avatar" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">B</div>
+                            <div>
+                                <div class="contact-name">Budi Santoso (Dev)</div>
+                                <div class="contact-preview">OK, I'll send the update...</div>
+                            </div>
+                        </div>
+                        <div class="contact-item" data-id="ahmad">
+                            <div class="avatar" style="background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);">A</div>
+                            <div>
+                                <div class="contact-name">Ahmad Rizki (Dev)</div>
+                                <div class="contact-preview">Here is the link to the...</div>
+                            </div>
+                        </div>
+                        <div class="contact-item" data-id="samuel">
+                            <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">S</div>
+                            <div>
+                                <div class="contact-name">Samuel (ProyeKita PM)</div>
+                                <div class="contact-preview">Welcome to the project!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-main">
+                    <div class="chat-header" id="chat-header-title">
+                        Select a conversation
+                    </div>
+                    <div class="chat-window" id="chat-window">
+                        </div>
+                    <div class="chat-input">
+                        <input type="text" id="chat-input-box" placeholder="Type your message...">
+                        <button id="send-chat-btn">Send</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <span>ProyeKita</span>
+                    </div>
+                    <p class="footer-desc">Platform outsourcing developer yang mendemokratisasi akses teknologi untuk Startup & UKM Indonesia.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Layanan</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Project-based</a></li>
+                        <li><a href="index.html">Dedicated Team</a></li>
+                        <li><a href="index.html">Maintenance</a></li>
+                        <li><a href="index.html">Konsultasi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Perusahaan</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Tentang Kami</a></li>
+                        <li><a href="index.html">Tim</a></li>
+                        <li><a href="index.html">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ProyeKita. All rights reserved. | BINUS University - Kelompok 5</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Terima kasih kepada Bu Ary atas bimbingannya</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. DATA: Store all chat histories
+        const chatData = {
+            'budi': {
+                name: 'Budi Santoso (Dev)',
+                messages: [
+                    { type: 'received', text: "Hi! I've finished the backend integration for the payment gateway. Can you test it on your end?" },
+                    { type: 'sent', text: "Sure, looks good! Just one question, did you also update the documentation for the new API endpoint?" },
+                    { type: 'received', text: "Ah, good catch. I'm working on that now." },
+                    { type: 'sent', text: "Great, thanks." },
+                    { type: 'received', text: "OK, I'll send the update in about 15 minutes." }
+                ]
+            },
+            'ahmad': {
+                name: 'Ahmad Rizki (Dev)',
+                messages: [
+                    { type: 'received', text: "Here is the link to the staging server you requested." },
+                    { type: 'sent', text: "Perfect, I'll check it out now." }
+                ]
+            },
+            'samuel': {
+                name: 'Samuel (ProyeKita PM)',
+                messages: [
+                    { type: 'received', text: "Welcome to the project! Let me know if you need anything to get started." }
+                ]
+            }
+        };
+        let currentChatId = null;
+
+        // 2. GET ELEMENTS: Find all the HTML parts we need to work with
+        const contactItems = document.querySelectorAll('.contact-item');
+        const chatHeaderTitle = document.getElementById('chat-header-title');
+        const chatWindow = document.getElementById('chat-window');
+        const chatInput = document.getElementById('chat-input-box');
+        const sendButton = document.getElementById('send-chat-btn');
+
+        // 3. FUNCTION: Render messages for the active chat
+        function renderMessages(contactId) {
+            // Clear the chat window
+            chatWindow.innerHTML = '';
+            
+            // Get the messages for the selected contact
+            const chat = chatData[contactId];
+            if (!chat) return;
+
+            // Loop through messages and create HTML for each
+            chat.messages.forEach(message => {
+                const bubble = document.createElement('div');
+                bubble.classList.add('message-bubble', message.type);
+                bubble.textContent = message.text;
+                chatWindow.appendChild(bubble);
+            });
+
+            // Scroll to the bottom
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // 4. FUNCTION: Switch the active chat
+        function switchChat(contactId) {
+            currentChatId = contactId;
+            
+            // Update active state in sidebar
+            contactItems.forEach(item => {
+                if (item.dataset.id === contactId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Update chat header title
+            chatHeaderTitle.textContent = chatData[contactId].name;
+
+            // Render the messages for this chat
+            renderMessages(contactId);
+        }
+
+        // 5. FUNCTION: Send a new message
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (text === '' || !currentChatId) {
+                return; // Don't send empty messages or if no chat is active
+            }
+
+            // Create new message object
+            const newMessage = {
+                type: 'sent',
+                text: text
+            };
+
+            // Add it to our data
+            chatData[currentChatId].messages.push(newMessage);
+
+            // Re-render the chat window
+            renderMessages(currentChatId);
+
+            // Clear the input
+            chatInput.value = '';
+            chatInput.focus();
+        }
+
+
+        // 6. INITIALIZE: Add event listeners when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Add click listener to each contact in the sidebar
+            contactItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    switchChat(item.dataset.id);
+                });
+            });
+
+            // Add click listener to the send button
+            sendButton.addEventListener('click', sendMessage);
+
+            // Add "Enter" key listener to the input box
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Load the first chat ('budi') by default
+            switchChat('budi');
+        });
+
+    </script>
+</body>
+</html>

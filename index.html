@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProyeKita - Modern Developer Outsourcing Platform</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc2626;
+            --primary-red-dark: #991b1b;
+            --accent-amber: #f59e0b;
+            --accent-amber-dark: #d97706;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --border-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-white);
+            overflow-x: hidden;
+        }
+
+        /* Modern Glassmorphism Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem; /* Reduced gap to fit new items */
+            list-style: none;
+            align-items: center;
+        }
+
+        /* Style for both buttons and new a tags in nav */
+        .nav-links button,
+        .nav-links a {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-weight: 500;
+            padding: 0;
+            transition: color 0.3s;
+            font-size: 0.95rem; /* Slightly smaller font */
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none; /* For a tags */
+        }
+        
+        /* Updated 'active' style to match other pages */
+        .nav-links a:hover,
+        .nav-links a.active { 
+            color: var(--text-dark);
+            font-weight: 600; /* Added font-weight for consistency */
+        }
+
+        .btn-cta {
+            background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-amber-dark) 100%);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.25);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.35);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Page System - REMOVED SPA STYLES */
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* Modern Home Page */
+        .hero-section {
+            padding-top: 80px; /* Added padding-top */
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #fafafa;
+        }
+
+        .hero-bg {
+            display: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(220, 38, 38, 0.12) 100%);
+            color: var(--primary-red);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(220, 38, 38, 0.15);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            font-style: italic;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+
+        .stat-text {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            line-height: 1;
+        }
+
+        /* NEW LOGO SECTION STYLES */
+        .partner-logos {
+            margin-bottom: 2.5rem; 
+        }
+
+        .partner-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        /* ##### CSS UPDATED HERE ##### */
+        .partner-logo {
+            /* Removed text styles like font-size, color, etc. */
+            text-align: center;
+            
+           
+            
+            /* Added image scaling styles */
+            max-height: 50px; /* <-- ADJUST THIS VALUE TO RESIZE */
+            width: 100%;
+            object-fit: contain; /* Keeps aspect ratio */
+            transition: all 0.3s;
+        }
+        
+        .partner-logo:hover {
+             opacity: 1;
+             
+             transform: scale(1.05);
+        }
+        /* ##### END OF CSS UPDATE ##### */
+
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn-primary {
+            background: #000000;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-dark);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #000000;
+            background: #f9fafb;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-image-container {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .floating-card {
+            position: absolute;
+            bottom: -2rem;
+            right: -2rem;
+            background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-amber-dark) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.3);
+        }
+
+        .floating-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .floating-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* Section Headers */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Modern Service Cards */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--accent-amber) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+            border-color: rgba(220, 38, 38, 0.2);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .service-card p {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 0.8rem;
+        }
+
+        .check {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            color: white;
+            border: none;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.08) translateY(-8px);
+        }
+
+        .popular-tag {
+            background: var(--accent-amber);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card.featured .price {
+            color: white;
+        }
+
+        .price-period {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .pricing-card.featured .price-period {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .price-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .price-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+        }
+
+        .pricing-card.featured .price-features li {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .pricing-card .pricing-btn {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        .pricing-card.featured .pricing-btn {
+            background: white;
+            color: var(--primary-red);
+        }
+
+        /* Team Cards */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border-color: rgba(220, 38, 38, 0.2);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2);
+        }
+
+        .team-card:hover .team-avatar {
+            transform: scale(1.1);
+        }
+
+        .team-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-id {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        /* Contact Form */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(220, 38, 38, 0.12) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-form-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--border-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        /* Testimonial Cards */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-gray);
+            font-style: italic;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 1.3rem;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .author-position {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .author-company {
+            font-size: 0.85rem;
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .footer-desc {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .footer-section h4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        /* Footer links updated to 'a' tags for section links */
+        .footer-links a {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none; /* Added */
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .container {
+                padding: 0 2rem;
+            }
+
+            .nav-links {
+                display: none; /* Mobile toggle is not functional, but this matches original CSS */
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content,
+            .contact-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-grid {
+                grid-template-columns: 1fr 1fr 1fr; /* Keep 3 logos on mobile */
+                gap: 1rem;
+            }
+
+            .partner-logo {
+                max-height: 30px; /* Smaller height on mobile */
+            }
+
+            .hero-image-container {
+                margin-top: 2rem;
+            }
+
+            .floating-card {
+                position: static;
+                margin-top: 1.5rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        /* Smooth Animations */
+        * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    
+        /* Dashboard & Rating Specific Styles Removed */
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header id="header">
+        <nav>
+            <a class="logo" href="index.html#home">
+                <img src="asset/logo.png" alt="ProyeKita Logo">
+            </a>
+            
+           <ul class="nav-links">
+                <li><a href="index.html#home" class="active">Home</a></li>
+                <li><a href="index.html#layanan">Service</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                
+                <li><a href="post-a-project.html">Post Project</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="communication_system.html">Messages</a></li>
+                <li><a href="rating_system.html">Rating</a></li>
+
+                <li><a href="index.html#keunggulan">About</a></li>
+                <li><a href="index.html#kontak">Contact</a></li>
+            </ul>
+            
+            <button class="mobile-toggle">☰</button>
+        </nav>
+    </header>
+    <section id="home" class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>YOUR<br>TRUSTED<br><span class="gradient-text">SOFTWARE<br>DEVELOPER</span></h1>
+                    <p class="hero-description">We deliver high quality, scalable software solutions that drive your business forward<br>from web applications to mobile apps.</p>
+                    
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.15));">
+                                📦
+                            </div>
+                            <div>
+                                <p class="stat-number">500+</p>
+                                <p class="stat-text">Projects Delivered</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.15));">
+                                😊
+                            </div>
+                            <div>
+                                <p class="stat-number">100+</p>
+                                <p class="stat-text">Happy Clients</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.15));">
+                                ⭐
+                            </div>
+                            <div>
+                                <p class="stat-number">5+</p>
+                                <p class="stat-text">Years Experience</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="partner-logos">
+                        <p class="partner-title">Trusted by leading companies</p>
+                        <div class="logo-grid">
+                            <img src="asset/logo client/AOI.png" alt="AOI" class="partner-logo">
+                            <img src="asset/logo client/Logo PCA.png" alt="PCA" class="partner-logo">
+                            <img src="asset/logo client/pma_transparent.png" alt="PMA" class="partner-logo">
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="index.html#kontak" class="btn-primary" style="text-decoration: none;"> Start Your Project
+                        </a>
+                        <a href="index.html#layanan" class="btn-secondary" style="text-decoration: none;"> View Our Work
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="hero-image-container">
+                        <img src="asset/Team.png" alt="Team" class="hero-image">
+                    </div>
+                    <div class="floating-card">
+                        <div class="floating-number">100+</div>
+                        <div class="floating-text">Happy Clients</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="layanan" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">💼 Layanan Kami</div>
+                <h2>Solusi Lengkap untuk Setiap Kebutuhan</h2>
+                <p class="section-subtitle">Dari project-based hingga dedicated team, kami punya solusi yang tepat untuk bisnis Anda</p>
+            </div>
+
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                        📋
+                    </div>
+                    <h3>Project-Based Contract</h3>
+                    <p>Proyek one-time untuk website, aplikasi, atau sistem khusus sesuai kebutuhan bisnis Anda.</p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> Timeline jelas</li>
+                        <li><span class="check">✓</span> Budget tetap</li>
+                        <li><span class="check">✓</span> Deliverable terdefinisi</li>
+                        <li><span class="check">✓</span> Source code ownership</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        👥
+                    </div>
+                    <h3>Dedicated Team</h3>
+                    <p>Sewa developer atau PM dengan kontrak bulanan fleksibel untuk kebutuhan jangka panjang.</p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> Arus kas stabil</li>
+                        <li><span class="check">✓</span> Tim terintegrasi</li>
+                        <li><span class="check">✓</span> Kontrak fleksibel</li>
+                        <li><span class="check">✓</span> Full-time support</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        ⚙️
+                    </div>
+                    <h3>Maintenance & Support</h3>
+                    <p>Pemeliharaan dan support berkelanjutan untuk memastikan sistem Anda berjalan optimal.</p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> SLA fleksibel</li>
+                        <li><span class="check">✓</span> Update berkala</li>
+                        <li><span class="check">✓</span> 24/7 support</li>
+                        <li><span class="check">✓</span> Monthly reports</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        💡
+                    </div>
+                    <h3>Konsultasi Teknologi</h3>
+                    <p>Strategi digital dan transformasi teknologi untuk mengakselerasi pertumbuhan bisnis.</p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> Expert advice</li>
+                        <li><span class="check">✓</span> Best practices</li>
+                        <li><span class="check">✓</span> Roadmap digital</li>
+                        <li><span class="check">✓</span> Tech assessment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="keunggulan" class="section" style="background: linear-gradient(135deg, #7f1d1d, #991b1b, #7f1d1d); color: white;">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.2);">⭐ Mengapa ProyeKita</div>
+                <h2 style="color: white;">Keunggulan Kami</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Kami memahami tantangan Startup dan UKM dalam transformasi digital</p>
+            </div>
+
+            <div class="service-grid">
+                <div class="service-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.2);">
+                    <div class="service-icon" style="background: rgba(255,255,255,0.15);">
+                        💰
+                    </div>
+                    <h3 style="color: white;">Harga Lebih Terjangkau</h3>
+                    <p style="color: rgba(255,255,255,0.85);">Tanpa mengurangi kualitas, kami menekan biaya melalui reusable code dan proses efisien.</p>
+                </div>
+
+                <div class="service-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.2);">
+                    <div class="service-icon" style="background: rgba(255,255,255,0.15);">
+                        ⚡
+                    </div>
+                    <h3 style="color: white;">Proses Adaptif & Fleksibel</h3>
+                    <p style="color: rgba(255,255,255,0.85);">Sesuaikan fitur, alur kerja, dan biaya sesuai kebutuhan bisnis yang dinamis.</p>
+                </div>
+
+                <div class="service-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.2);">
+                    <div class="service-icon" style="background: rgba(255,255,255,0.15);">
+                        🏆
+                    </div>
+                    <h3 style="color: white;">Tim Ahli Bersertifikat</h3>
+                    <p style="color: rgba(255,255,255,0.85);">Developer berpengalaman dalam Frontend, Backend, Mobile App, QA, DevOps, UI/UX.</p>
+                </div>
+
+                <div class="service-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.2);">
+                    <div class="service-icon" style="background: rgba(255,255,255,0.15);">
+                        🎯
+                    </div>
+                    <h3 style="color: white;">Fokus B2B/UKM/Startup</h3>
+                    <p style="color: rgba(255,255,255,0.85);">Memahami keterbatasan anggaran dan kebutuhan validasi ide bisnis.</p>
+                </div>
+
+                <div class="service-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.2);">
+                    <div class="service-icon" style="background: rgba(255,255,255,0.15);">
+                        🛡️
+                    </div>
+                    <h3 style="color: white;">Money Back Guarantee</h3>
+                    <p style="color: rgba(255,255,255,0.85);">Garansi uang kembali untuk proyek MVP atau fase awal pengembangan.</p>
+                </div>
+
+                <div class="service-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.2);">
+                    <div class="service-icon" style="background: rgba(255,255,255,0.15);">
+                        📈
+                    </div>
+                    <h3 style="color: white;">Track Record Terbukti</h3>
+                    <p style="color: rgba(255,255,255,0.85);">500+ proyek sukses dengan 100+ klien yang puas di berbagai industri.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="harga" class="section" style="background: #f8fafc;">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">💰 Harga Transparan</div>
+                <h2>Paket Harga Kami</h2>
+                <p class="section-subtitle">Pilih paket yang sesuai dengan kebutuhan dan budget bisnis Anda</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Project-Based</h3>
+                    <div>
+                        <span class="price">30jt - 200jt</span><br>
+                        <span class="price-period">per proyek</span>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Website Development</li>
+                        <li><span class="check">✓</span> Mobile App Development</li>
+                        <li><span class="check">✓</span> Database System</li>
+                        <li><span class="check">✓</span> Custom Software</li>
+                        <li><span class="check">✓</span> Source Code Ownership</li>
+                    </ul>
+                    <a href="index.html#kontak" class="pricing-btn" style="text-decoration: none; display: block; text-align: center;">Pilih Paket</a> </div>
+
+                <div class="pricing-card featured">
+                    <div class="popular-tag">Paling Populer</div>
+                    <h3>Dedicated Team</h3>
+                    <div>
+                        <span class="price">20jt - 60jt</span><br>
+                        <span class="price-period">per orang/bulan</span>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Frontend Developer</li>
+                        <li><span class="check">✓</span> Backend Developer</li>
+                        <li><span class="check">✓</span> Project Manager</li>
+                        <li><span class="check">✓</span> Full Stack Developer</li>
+                        <li><span class="check">✓</span> Kontrak Fleksibel</li>
+                    </ul>
+                    <a href="index.html#kontak" class="pricing-btn" style="text-decoration: none; display: block; text-align: center;">Pilih Paket</a> </div>
+
+                <div class="pricing-card">
+                    <h3>Maintenance</h3>
+                    <div>
+                        <span class="price">5jt - 15jt</span><br>
+                        <span class="price-period">per bulan</span>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Bug Fixing</li>
+                        <li><span class="check">✓</span> Performance Optimization</li>
+                        <li><span class="check">✓</span> Security Updates</li>
+                        <li><span class="check">✓</span> Technical Support</li>
+                        <li><span class="check">✓</span> Monthly Reports</li>
+                    </ul>
+                    <a href="index.html#kontak" class="pricing-btn" style="text-decoration: none; display: block; text-align: center;">Pilih Paket</a> </div>
+
+                <div class="pricing-card">
+                    <h3>Konsultasi</h3>
+                    <div>
+                        <span class="price">2.5jt+</span><br>
+                        <span class="price-period">per sesi</span>
+                    </div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Digital Strategy</li>
+                        <li><span class="check">✓</span> System Integration</li>
+                        <li><span class="check">✓</span> Tech Transformation</li>
+                        <li><span class="check">✓</span> Architecture Review</li>
+                        <li><span class="check">✓</span> Best Practices</li>
+                    </ul>
+                    <a href="index.html#kontak" class="pricing-btn" style="text-decoration: none; display: block; text-align: center;">Pilih Paket</a> </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="klien" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">💬 Kata Mereka</div>
+                <h2>Klien Kami</h2>
+                <p class="section-subtitle">Dipercaya oleh startup dan UKM terkemuka di Indonesia</p>
+            </div>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">"ProyeKita membantu kami mengembangkan MVP dalam waktu singkat dengan budget yang sangat terjangkau. Highly recommended!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div>
+                            <p class="author-name">Ahmad Rizki</p>
+                            <p class="author-position">CEO</p>
+                            <p class="author-company">TechStart Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">"Tim yang profesional dan responsif. Mereka benar-benar memahami kebutuhan bisnis UKM seperti kami."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div>
+                            <p class="author-name">Siti Nurhaliza</p>
+                            <p class="author-position">Owner</p>
+                            <p class="author-company">Warung Digital</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">"Partner outsourcing terbaik untuk proyek-proyek klien kami. Kualitas code dan timeline selalu tepat!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">B</div>
+                        <div>
+                            <p class="author-name">Budi Santoso</p>
+                            <p class="author-position">Project Manager</p>
+                            <p class="author-company">Creative Agency XYZ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #dc2626, #991b1b); border-radius: 24px; padding: 4rem; text-align: center; color: white; margin-top: 4rem;">
+                <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">Siap Bergabung dengan 100+ Klien Kami?</h3>
+                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 2rem;">Mulai transformasi digital bisnis Anda hari ini dengan konsultasi gratis</p>
+                <a href="index.html#kontak" class="btn-primary" style="background: white; color: #dc2626; text-decoration: none;">Konsultasi Gratis →</a> </div>
+        </div>
+    </section>
+
+    <section id="tim" class="section" style="background: #f8fafc;">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">👥 Tim Kami</div>
+                <h2>Tim Kepemimpinan</h2>
+                <p class="section-subtitle">Dipimpin oleh profesional berpengalaman yang memastikan keunggulan di setiap aspek</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">J</div>
+                    <p class="team-name">Joseph Budihartanto</p>
+                    <p class="team-role">CEO</p>
+                    <p class="team-id">2702261712</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">S</div>
+                    <p class="team-name">Samuel Sebastian Sujaya</p>
+                    <p class="team-role">CTO</p>
+                    <p class="team-id">2702330035</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">K</div>
+                    <p class="team-name">Kristofferus Vincentio W.</p>
+                    <p class="team-role">COO</p>
+                    <p class="team-id">2702257936</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">M</div>
+                    <p class="team-name">Matthew Ethan Laurent</p>
+                    <p class="team-role">CFO</p>
+                    <p class="team-id">2702231496</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">M</div>
+                    <p class="team-name">Martin Erickson</p>
+                    <p class="team-role">CMO</p>
+                    <p class="team-id">2702253156</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<!--project 1-->
+    <section id="portfolio" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">💼 Portfolio Kami</div>
+                <h2>Proyek Yang Telah Kami Kerjakan</h2>
+                <p class="section-subtitle">Berbagai solusi teknologi yang telah kami wujudkan untuk klien kami</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); display: flex; align-items: center; justify-content: center;">
+                        <img src="asset/aoi web.png" alt="AOI" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #dbeafe; color: #0284c7; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">E-Commerce</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">AOI Water - Sistem E-Commerce</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Platform e-commerce lengkap dengan sistem inventory, payment gateway, dan dashboard analytics untuk bisnis air mineral.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">React</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Node.js</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">PostgreSQL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 3 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 4 developer</span>
+                        </div>
+                    </div>
+                </div>
+<!--project 2-->
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); display: flex; align-items: center; justify-content: center;">
+                        <img src="asset/pca web.png" alt="PCA" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #d1fae5; color: #059669; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">Property Management</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">Pendopo Cendana - Property Management System</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Sistem manajemen properti terintegrasi dengan fitur booking, payment tracking, dan customer relationship management.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Vue.js</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Laravel</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">MySQL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 4 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 5 developer</span>
+                        </div>
+                    </div>
+                </div>
+<!--project 3-->
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); display: flex; align-items: center; justify-content: center;">
+                       <img src="asset/pma web.png" alt="PMA" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #fef3c7; color: #d97706; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">Mobile App</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">Pandawa Makmur - Mobile Inventory App</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Aplikasi mobile untuk manajemen inventory dan supply chain dengan fitur real-time tracking dan reporting.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">React Native</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Express</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">MongoDB</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 5 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 6 developer</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!--project 4-->
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); display: flex; align-items: center; justify-content: center;">
+                        <img src="asset/AI Trading.jpg" alt="AI" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #dbeafe; color: #0284c7; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">Stock</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">AI Trading</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Platform trading menggunakan AI untuk analisis.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">React</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Node.js</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">PostgreSQL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 3 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 4 developer</span>
+                        </div>
+                    </div>
+                </div>
+                <!--project 5-->
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); display: flex; align-items: center; justify-content: center;">
+                       <img src="asset/Shoppybara.jpg" alt="Shoppybara" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #dbeafe; color: #0284c7; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">E-Commerce</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">Shoppybara</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Platform e-commerce lengkap dengan sistem inventory, payment gateway, dan dashboard analytics untuk bisnis air mineral.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">React</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Node.js</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">PostgreSQL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 3 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 4 developer</span>
+                        </div>
+                    </div>
+                </div>
+                <!--project 6-->
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); display: flex; align-items: center; justify-content: center;">
+                        <img src="asset/Flood Report.jpg" alt="Flood" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #dbeafe; color: #0284c7; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">Report</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">Flood Report</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Website to analyze flood reports across a specific area.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">React</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Node.js</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">PostgreSQL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 3 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 4 developer</span>
+                        </div>
+                    </div>
+                </div>
+                <!--project 7-->
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;">
+                    <div style="height: 200px; background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); display: flex; align-items: center; justify-content: center;">
+                        <img src="asset/DigiPurse.jpg" alt="DigiPurse" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <div style="display: inline-block; background: #dbeafe; color: #0284c7; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">E-Commerce</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #1e293b;">DigiPurse</h3>
+                        <p style="color: #64748b; line-height: 1.7; margin-bottom: 1.5rem;">Platform e-commerce lengkap dengan sistem inventory, payment gateway, dan dashboard analytics untuk bisnis air mineral.</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">React</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">Node.js</span>
+                            <span style="background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; color: #475569;">PostgreSQL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Durasi:</strong> 3 bulan</span>
+                            <span style="font-size: 0.9rem; color: #64748b;"><strong>Tim:</strong> 4 developer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="index.html#kontak" style="background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%); color: white; padding: 16px 48px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3); transition: all 0.3s; text-decoration: none;"> Mulai Proyek Anda
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge">📧 Hubungi Kami</div>
+                <h2>Mari Wujudkan Proyek Digital Anda</h2>
+                <p class="section-subtitle">Konsultasi gratis untuk mendiskusikan kebutuhan teknologi bisnis Anda</p>
+            </div>
+
+            <div class="contact-grid">
+                <div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <svg style="width: 28px; height: 28px; stroke: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 700; margin-bottom: 0.3rem;">Alamat</h4>
+                            <p style="color: var(--text-gray);">BINUS University, Jakarta</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <svg style="width: 28px; height: 28px; stroke: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 700; margin-bottom: 0.3rem;">Email</h4>
+                            <p style="color: var(--text-gray);">info@proyekita.id</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <svg style="width: 28px; height: 28px; stroke: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 700; margin-bottom: 0.3rem;">Status</h4>
+                            <p style="color: var(--text-gray);">PT (Dalam Proses)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <h3 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 2rem;">Kirim Pesan</h3>
+                    
+                    <div class="form-group">
+                        <label>Nama Lengkap *</label>
+                        <input type="text" placeholder="Masukkan nama Anda" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nama Perusahaan</label>
+                        <input type="text" placeholder="Nama perusahaan (opsional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Layanan Minat</label>
+                        <select>
+                            <option value="">Pilih layanan</option>
+                            <option value="project-based">Project-based Contract</option>
+                            <option value="dedicated-team">Dedicated Team</option>
+                            <option value="maintenance">Maintenance & Support</option>
+                            <option value="konsultasi">Konsultasi Teknologi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pesan *</label>
+                        <textarea placeholder="Ceritakan tentang proyek Anda..." required></textarea>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%;" onclick="alert('Terima kasih! Pesan Anda telah dikirim. Kami akan segera menghubungi Anda.')">
+                        Kirim Pesan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        
+                        <span>ProyeKita</span>
+                    </div>
+                    <p class="footer-desc">Platform outsourcing developer yang mendemokratisasi akses teknologi untuk Startup & UKM Indonesia.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Layanan</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#layanan">Project-based</a></li>
+                        <li><a href="index.html#layanan">Dedicated Team</a></li>
+                        <li><a href="index.html#layanan">Maintenance</a></li>
+                        <li><a href="index.html#layanan">Konsultasi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Perusahaan</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#keunggulan">Tentang Kami</a></li>
+                        <li><a href="index.html#tim">Tim</a></li>
+                        <li><a href="index.html#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 ProyeKita. All rights reserved. | BINUS University - Kelompok 5</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Terima kasih kepada Bu Ary atas bimbingannya</p>
+            </div>
+        </div>
+    </footer>
+
+    </body>
+</html>
